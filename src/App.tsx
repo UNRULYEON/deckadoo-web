@@ -1,17 +1,17 @@
-import { DeckCard, Header } from '@/components'
+import { router } from '@/pages'
+import { Header } from '@/components'
+import { Route, Switch } from 'wouter'
 
 const App = () => {
   return (
-    <div className="flex flex-col gap-[32px] p-10">
+    <>
       <Header />
-      <main>
-        <DeckCard
-          title="Estimation"
-          type="Sizing"
-          description="A short description of what this deck is and how you can use it."
-        />
-      </main>
-    </div>
+      <Switch>
+        <Route path="/" component={router.root} />
+        <Route path="/estimations" component={router.estimations.root} />
+        <Route>404</Route>
+      </Switch>
+    </>
   )
 }
 
