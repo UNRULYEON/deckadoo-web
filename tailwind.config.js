@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         suse: ['SUSE', ...defaultTheme.fontFamily.sans],
-        inter: ['Inter var', ...defaultTheme.fontFamily.sans],
+        inter: ['Inter', ...defaultTheme.fontFamily.sans],
       },
     },
   },
