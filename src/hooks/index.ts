@@ -1,0 +1,1 @@
+export { useDeckadooStore } from './useDeckadooStore'
