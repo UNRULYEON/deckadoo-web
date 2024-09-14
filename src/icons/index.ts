@@ -1,1 +1,2 @@
-export { default as HouseIcon } from './HouseIcon'
+export { HouseIcon } from './HouseIcon'
+export { ChevronDown } from './ChevronDown'
