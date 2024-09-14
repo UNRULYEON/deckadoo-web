@@ -1,3 +1,4 @@
+import { cn } from '@/utils'
 import { forwardRef, HTMLProps } from 'react'
 
 type InputProps = {
@@ -7,9 +8,9 @@ type InputProps = {
 } & HTMLProps<HTMLInputElement>
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, error, ...rest }, ref) => {
+  ({ label, id, error, className, ...rest }, ref) => {
     return (
-      <div className="flex flex-col ">
+      <div className="flex flex-col text-[#111111]">
         {label && (
           <label htmlFor={id} className="font-bold mb-2">
             {label}
@@ -17,7 +18,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <input
           id={id}
-          className="p-4 border border-[#D7D7D7] rounded-lg text-sm"
+          className={cn(
+            'p-4 border border-[#D7D7D7] rounded-lg text-sm placeholder:text-[#7E7E7E]',
+            'focus:border-[#7B00FF] outline-none',
+            className
+          )}
           ref={ref}
           {...rest}
         />
