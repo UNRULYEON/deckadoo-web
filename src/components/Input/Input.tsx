@@ -8,7 +8,7 @@ type InputProps = {
 } & HTMLProps<HTMLInputElement>
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, error, className, ...rest }, ref) => {
+  ({ label, id, error, disabled, className, ...rest }, ref) => {
     return (
       <div className="flex flex-col text-[#111111]">
         {label && (
@@ -21,8 +21,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={cn(
             'p-4 border border-[#D7D7D7] rounded-lg text-sm placeholder:text-[#7E7E7E]',
             'focus:border-[#7B00FF] outline-none',
+            disabled && 'hover:cursor-not-allowed',
             className
           )}
+          disabled={disabled}
           ref={ref}
           {...rest}
         />

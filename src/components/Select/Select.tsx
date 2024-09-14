@@ -7,7 +7,7 @@ type SelectProps = {
 } & HTMLProps<HTMLSelectElement>
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, id, options, error, className, ...rest }, ref) => {
+  ({ label, id, options, error, disabled, className, ...rest }, ref) => {
     return (
       <div className="flex flex-col text-[#111111]">
         <label htmlFor={id} className="font-bold mb-2">
@@ -18,6 +18,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
           className={cn(
             'p-4 appearance-none border border-[#D7D7D7] rounded-lg text-sm placeholder:text-[#7E7E7E]',
             'focus:border-[#7B00FF] outline-none',
+            disabled && 'hover:cursor-not-allowed',
             className
           )}
           style={{
@@ -26,6 +27,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             backgroundPosition: 'right 1rem center',
             backgroundRepeat: 'no-repeat',
           }}
+          disabled={disabled}
           ref={ref}
           {...rest}
         >
