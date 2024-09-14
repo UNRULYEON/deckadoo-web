@@ -11,7 +11,8 @@ const Button = ({ className, disabled, children, ...rest }: ButtonProps) => {
       className={cn(
         'text-white font-bold bg-[#7B00FF] rounded-lg p-3 transition-all',
         'hover:bg-[#5C00BE]',
-        disabled && 'text-[#979797] bg-[#EAEAEA] hover:cursor-not-allowed',
+        disabled &&
+          'text-[#979797] bg-[#EAEAEA] hover:bg-[#EAEAEA] hover:cursor-not-allowed',
         className
       )}
       disabled={disabled}
