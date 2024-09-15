@@ -20,7 +20,7 @@ const Header = () => {
               </Link>
               <div className="w-[1px] h-[22px] bg-[#B8B8B8]" />
               <span className="font-suse font-bold text-3xl leading-[37.8px] capitalize">
-                {location.substring(1).split('-').join(' ')}
+                {location.split('/')[1].split('-').join(' ')}
               </span>
             </div>
           )}
