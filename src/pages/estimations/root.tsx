@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button, Input, Select } from '@/components'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'wouter'
 
 const VOTING_SYSTEMS = ['Fibonacci', 'T-Shirt sizing'] as const
 
@@ -14,7 +16,9 @@ const schema = z.object({
 type Inputs = z.infer<typeof schema>
 
 const Root = () => {
-  const { isConnected, send } = useWebsocket()
+  const { isConnected, send, message } = useWebsocket()
+  const [isCreatingGame, setIsCreatingGame] = useState(false)
+  const [, setLocation] = useLocation()
 
   const {
     formState: { errors },
@@ -29,8 +33,23 @@ const Root = () => {
   })
 
   const onSubmit = (data: Inputs) => {
-    send('create-session', data)
+    setIsCreatingGame(true)
+
+    send({
+      type: 'create-game',
+      payload: {
+        name: data.sessionName,
+        votingSystem: data.votingSystem,
+      },
+    })
   }
+
+  useEffect(() => {
+    if (message && message.type === 'game-created') {
+      setIsCreatingGame(false)
+      setLocation(`/estimations/${message.payload.code}`)
+    }
+  }, [message])
 
   return (
     <div className="flex flex-1 justify-center items-center">
@@ -58,7 +77,7 @@ const Root = () => {
             {...register('votingSystem')}
           />
         </div>
-        <Button type="submit" disabled={!isConnected}>
+        <Button type="submit" disabled={!isConnected || isCreatingGame}>
           Start new game
         </Button>
       </form>

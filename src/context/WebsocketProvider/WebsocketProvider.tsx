@@ -1,10 +1,11 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
+import { ClientMessage, ServerMessage } from '@/types'
 
 type WebsocketState = {
   ws: WebSocket | null
   isConnected: boolean
-  message: unknown | null
-  send: (topic: string, payload: unknown) => void
+  message: ServerMessage | null
+  send: (payload: ClientMessage) => void
 }
 
 export const WebsocketContext = createContext<WebsocketState | undefined>(
@@ -24,11 +25,18 @@ export const WebsocketProvider = ({ children }: WebsocketProps) => {
   useEffect(() => {
     if (ws) return
 
-    const socket = new WebSocket(`ws://localhost:3000/ws`)
+    const socket = new WebSocket(`ws://localhost:3000/ws/estimations`)
 
     socket.onopen = () => setIsConnected(true)
     socket.onclose = () => setIsConnected(false)
-    socket.onmessage = (event) => setMessage(event.data)
+    socket.onmessage = (event) => {
+      const parsedMessage = JSON.parse(event.data)
+
+      if (!parsedMessage.type || !parsedMessage.payload)
+        throw new Error('Invalid message received')
+
+      setMessage(parsedMessage)
+    }
 
     setWs(socket)
 
@@ -37,10 +45,10 @@ export const WebsocketProvider = ({ children }: WebsocketProps) => {
     }
   }, [])
 
-  const send: WebsocketState['send'] = (topic, payload) => {
+  const send: WebsocketState['send'] = (payload) => {
     if (!ws) return
 
-    ws.send(JSON.stringify({ topic, payload }))
+    ws.send(JSON.stringify(payload))
   }
 
   return (
