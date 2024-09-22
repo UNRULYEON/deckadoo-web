@@ -1,3 +1,10 @@
+import type {
+  ServerGameCreate,
+  ServerGameJoined,
+  ServerGameState,
+  ServerPlayerConnected,
+} from '@/types'
+
 export type ClientMessage =
   | {
       type: 'create-game'
@@ -13,19 +20,35 @@ export type ClientMessage =
         name: string
       }
     }
+  | {
+      type: 'update-name'
+      payload: {
+        name: string
+      }
+    }
+  | {
+      type: 'cast-vote'
+      payload: {
+        value: string | null
+      }
+    }
+  | {
+      type: 'reveal-cards'
+      payload: null
+    }
+  | {
+      type: 'start-new-game'
+      payload: null
+    }
 
 type BaseMessage = {
   status: 'ok' | 'error'
 }
 
 type ServerMessages =
-  | {
-      type: 'game-created'
-      payload: {
-        code: string
-      }
-    }
-  | { type: 'game-joined'; payload: number }
-  | { type: 'game-state'; payload: number }
+  | ServerPlayerConnected
+  | ServerGameCreate
+  | ServerGameJoined
+  | ServerGameState
 
 export type ServerMessage = BaseMessage & ServerMessages

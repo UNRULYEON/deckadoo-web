@@ -1,4 +1,4 @@
-import { Link } from 'wouter'
+import { Link } from '@tanstack/react-router'
 
 type DeckCardProps = {
   title: string

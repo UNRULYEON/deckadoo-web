@@ -1,9 +1,9 @@
-import { Link, useLocation } from 'wouter'
+import { Link, useLocation } from '@tanstack/react-router'
 import { HouseIcon } from '@/icons'
 import { useDeckadooStore } from '@/hooks'
 
 const Header = () => {
-  const [location] = useLocation()
+  const { pathname } = useLocation()
   const name = useDeckadooStore((s) => s.name)
   const setName = useDeckadooStore((s) => s.setName)
 
@@ -11,7 +11,7 @@ const Header = () => {
     <div className="px-10 pt-10">
       <header className="flex justify-between">
         <div>
-          {location === '/' ? (
+          {pathname === '/' ? (
             <img src="/logo.svg" />
           ) : (
             <div className="flex items-center gap-4">
@@ -20,7 +20,7 @@ const Header = () => {
               </Link>
               <div className="w-[1px] h-[22px] bg-[#B8B8B8]" />
               <span className="font-suse font-bold text-3xl leading-[37.8px] capitalize">
-                {location.split('/')[1].split('-').join(' ')}
+                {pathname.split('/')[1].split('-').join(' ')}
               </span>
             </div>
           )}

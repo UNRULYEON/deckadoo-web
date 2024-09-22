@@ -1,11 +1,14 @@
-import { WebsocketProvider } from '@/context'
-import { useWebsocket } from '@/hooks'
+import { useEffect, useState } from 'react'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Input, Select, Button } from '@/components'
+import { useWebsocket } from '@/hooks'
 import { z } from 'zod'
-import { Button, Input, Select } from '@/components'
-import { useEffect, useState } from 'react'
-import { useLocation } from 'wouter'
+
+export const Route = createFileRoute('/estimations/_layout/')({
+  component: () => <CreateEstimationGame />,
+})
 
 const VOTING_SYSTEMS = ['Fibonacci', 'T-Shirt sizing'] as const
 
@@ -15,10 +18,10 @@ const schema = z.object({
 })
 type Inputs = z.infer<typeof schema>
 
-const Root = () => {
+const CreateEstimationGame = () => {
   const { isConnected, send, message } = useWebsocket()
   const [isCreatingGame, setIsCreatingGame] = useState(false)
-  const [, setLocation] = useLocation()
+  const navigate = useNavigate()
 
   const {
     formState: { errors },
@@ -45,9 +48,12 @@ const Root = () => {
   }
 
   useEffect(() => {
-    if (message && message.type === 'game-created') {
+    if (message && message.type === 'game-create') {
       setIsCreatingGame(false)
-      setLocation(`/estimations/${message.payload.code}`)
+      const modifiedCode =
+        message.payload.code.slice(0, 3) + '-' + message.payload.code.slice(3)
+
+      navigate({ to: '/estimations/$id', params: { id: modifiedCode } })
     }
   }, [message])
 
@@ -84,9 +90,3 @@ const Root = () => {
     </div>
   )
 }
-
-export const root = () => (
-  <WebsocketProvider>
-    <Root />
-  </WebsocketProvider>
-)

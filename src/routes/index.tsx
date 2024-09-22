@@ -1,6 +1,11 @@
 import { DeckCard } from '@/components'
+import { createFileRoute } from '@tanstack/react-router'
 
-export const root = () => {
+export const Route = createFileRoute('/')({
+  component: Index,
+})
+
+function Index() {
   return (
     <div className="mt-8 px-10 pb-10">
       <main>
