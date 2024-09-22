@@ -17,7 +17,7 @@ const development: Config = {
 const staging: Config = {
   env: Environment.STAGING,
   api: {
-    ws: 'ws://localhost:3000/ws/estimations',
+    ws: 'ws://staging.deckadoo.apps.amar.sh/ws/estimations',
   },
 }
 
