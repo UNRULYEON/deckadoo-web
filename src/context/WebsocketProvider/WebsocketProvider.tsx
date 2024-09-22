@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
 import { ClientMessage, ServerMessage } from '@/types'
+import { config } from '@/constants'
 
 type WebsocketState = {
   ws: WebSocket | null
@@ -38,7 +39,7 @@ export const WebsocketProvider = ({ children }: WebsocketProps) => {
   useEffect(() => {
     if (ws) return
 
-    const socket = new WebSocket(`ws://localhost:3000/ws/estimations`)
+    const socket = new WebSocket(config.api.ws)
 
     socket.onopen = () => setIsConnected(true)
     socket.onclose = () => setIsConnected(false)
