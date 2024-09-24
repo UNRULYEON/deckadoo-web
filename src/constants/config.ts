@@ -17,14 +17,14 @@ const development: Config = {
 const staging: Config = {
   env: Environment.STAGING,
   api: {
-    ws: 'ws://api.staging.deckadoo.apps.amar.sh/ws/estimations',
+    ws: 'wss://api.staging.deckadoo.apps.amar.sh/ws/estimations',
   },
 }
 
 const production: Config = {
   env: Environment.PRODUCTION,
   api: {
-    ws: 'ws://api.deckadoo.apps.amar.sh/ws/estimations',
+    ws: 'wss://api.deckadoo.apps.amar.sh/ws/estimations',
   },
 }
 
